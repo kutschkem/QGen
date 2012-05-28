@@ -19,11 +19,11 @@ import de.tudarmstadt.ukp.dkpro.core.api.ner.type.Person;
 public class NEQuestionWordAnnotator extends JCasAnnotator_ImplBase {
 
     @Override
-    public void process(JCas arg0) throws AnalysisEngineProcessException {
-        Collection<NamedEntity> entities = JCasUtil.select(arg0, NamedEntity.class);
+    public void process(JCas cas) throws AnalysisEngineProcessException {
+        Collection<NamedEntity> entities = JCasUtil.select(cas, NamedEntity.class);
 
         for (NamedEntity entity : entities) {
-            Questionword qw = new Questionword(arg0);
+            Questionword qw = new Questionword(cas);
 
             qw.setBegin(entity.getBegin());
             qw.setEnd(entity.getEnd());
