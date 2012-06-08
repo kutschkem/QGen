@@ -63,8 +63,8 @@ public class GUI {
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         springLayout.putConstraint(SpringLayout.NORTH, tabbedPane, 0, SpringLayout.NORTH, frame.getContentPane());
         springLayout.putConstraint(SpringLayout.WEST, tabbedPane, 0, SpringLayout.WEST, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.SOUTH, tabbedPane, 266, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.EAST, tabbedPane, 442, SpringLayout.WEST, frame.getContentPane());
+        springLayout.putConstraint(SpringLayout.SOUTH, tabbedPane, 0, SpringLayout.SOUTH, frame.getContentPane());
+        springLayout.putConstraint(SpringLayout.EAST, tabbedPane, 0, SpringLayout.EAST, frame.getContentPane());
         frame.getContentPane().add(tabbedPane);
 
         JPanel panel = new JPanel();
@@ -103,11 +103,11 @@ public class GUI {
         txtInput.setColumns(10);
 
         table = new JTable();
+        sl_panel.putConstraint(SpringLayout.EAST, table, 0, SpringLayout.EAST, panel);
         table.setModel(tableModel);
         sl_panel.putConstraint(SpringLayout.NORTH, table, 0, SpringLayout.SOUTH, txtInput);
         sl_panel.putConstraint(SpringLayout.WEST, table, 0, SpringLayout.WEST, panel);
         sl_panel.putConstraint(SpringLayout.SOUTH, table, 0, SpringLayout.SOUTH, panel);
-        sl_panel.putConstraint(SpringLayout.EAST, table, 436, SpringLayout.WEST, panel);
         panel.add(table);
 
         JLabel lblEnterText = new JLabel("Enter text:");

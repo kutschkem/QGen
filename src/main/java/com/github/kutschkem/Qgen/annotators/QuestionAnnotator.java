@@ -10,6 +10,14 @@ import com.github.kutschkem.Qgen.annotations.Questionword;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 
+/**
+ * this annotator transforms Questionword annotations to Question annotations.
+ * It needs sentence segmenting (and question word annotation, of course) as
+ * preprocessing step(s).
+ * 
+ * @author Michael Kutschke
+ * 
+ */
 public class QuestionAnnotator extends JCasAnnotator_ImplBase {
 
     @Override
