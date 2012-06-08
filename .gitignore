@@ -4,3 +4,5 @@
 *.jar
 *.war
 *.ear
+
+/src/main/resources/conf/connection.properties

@@ -26,6 +26,7 @@ public class GUI {
     private JTable table;
 
     private QuestionTableModel tableModel = new QuestionTableModel();
+    private JTextField textField;
 
     /**
      * Launch the application.
@@ -63,7 +64,7 @@ public class GUI {
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         springLayout.putConstraint(SpringLayout.NORTH, tabbedPane, 0, SpringLayout.NORTH, frame.getContentPane());
         springLayout.putConstraint(SpringLayout.WEST, tabbedPane, 0, SpringLayout.WEST, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.SOUTH, tabbedPane, 0, SpringLayout.SOUTH, frame.getContentPane());
+        springLayout.putConstraint(SpringLayout.SOUTH, tabbedPane, 100, SpringLayout.NORTH, frame.getContentPane());
         springLayout.putConstraint(SpringLayout.EAST, tabbedPane, 0, SpringLayout.EAST, frame.getContentPane());
         frame.getContentPane().add(tabbedPane);
 
@@ -102,17 +103,60 @@ public class GUI {
         panel.add(txtInput);
         txtInput.setColumns(10);
 
-        table = new JTable();
-        sl_panel.putConstraint(SpringLayout.EAST, table, 0, SpringLayout.EAST, panel);
-        table.setModel(tableModel);
-        sl_panel.putConstraint(SpringLayout.NORTH, table, 0, SpringLayout.SOUTH, txtInput);
-        sl_panel.putConstraint(SpringLayout.WEST, table, 0, SpringLayout.WEST, panel);
-        sl_panel.putConstraint(SpringLayout.SOUTH, table, 0, SpringLayout.SOUTH, panel);
-        panel.add(table);
-
         JLabel lblEnterText = new JLabel("Enter text:");
         sl_panel.putConstraint(SpringLayout.NORTH, lblEnterText, 12, SpringLayout.NORTH, txtInput);
         sl_panel.putConstraint(SpringLayout.EAST, lblEnterText, -20, SpringLayout.WEST, txtInput);
         panel.add(lblEnterText);
+
+        JPanel panel_1 = new JPanel();
+        tabbedPane.addTab("Wikipedia", null, panel_1, null);
+        SpringLayout sl_panel_1 = new SpringLayout();
+        panel_1.setLayout(sl_panel_1);
+
+        textField = new JTextField();
+        textField.addActionListener(new ActionListener() {
+            QuestionExtractor questionExtractor = new QuestionExtractor();
+
+            public void actionPerformed(ActionEvent e) {
+                SwingUtilities.invokeLater(new Runnable() {
+
+                    public void run() {
+                        try {
+                            tableModel.fill(questionExtractor.extractFromWikipedia(textField.getText()));
+                        } catch (UIMAException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        } catch (IOException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+                    }
+
+                });
+            }
+        });
+        sl_panel_1.putConstraint(SpringLayout.NORTH, textField, 0, SpringLayout.NORTH, panel_1);
+        sl_panel_1.putConstraint(SpringLayout.WEST, textField, 110, SpringLayout.WEST, panel_1);
+        sl_panel_1.putConstraint(SpringLayout.SOUTH, textField, 39, SpringLayout.NORTH, panel_1);
+        sl_panel_1.putConstraint(SpringLayout.EAST, textField, -109, SpringLayout.EAST, panel_1);
+        textField.setColumns(10);
+        panel_1.add(textField);
+
+        JLabel label = new JLabel("Enter text:");
+        sl_panel_1.putConstraint(SpringLayout.NORTH, label, 12, SpringLayout.NORTH, textField);
+        sl_panel_1.putConstraint(SpringLayout.EAST, label, -20, SpringLayout.WEST, textField);
+        panel_1.add(label);
+
+        table = new JTable();
+        springLayout.putConstraint(SpringLayout.NORTH, table, 0, SpringLayout.SOUTH, tabbedPane);
+        springLayout.putConstraint(SpringLayout.WEST, table, 0, SpringLayout.WEST, frame.getContentPane());
+        springLayout.putConstraint(SpringLayout.SOUTH, table, 0, SpringLayout.SOUTH, frame.getContentPane());
+        springLayout.putConstraint(SpringLayout.EAST, table, 0, SpringLayout.EAST, frame.getContentPane());
+        sl_panel.putConstraint(SpringLayout.NORTH, table, 0, SpringLayout.SOUTH, panel);
+        sl_panel.putConstraint(SpringLayout.WEST, table, 0, SpringLayout.WEST, panel);
+        sl_panel.putConstraint(SpringLayout.SOUTH, table, 0, SpringLayout.SOUTH, frame.getContentPane());
+        sl_panel.putConstraint(SpringLayout.EAST, table, 0, SpringLayout.EAST, panel);
+        frame.getContentPane().add(table);
+        table.setModel(tableModel);
     }
 }
