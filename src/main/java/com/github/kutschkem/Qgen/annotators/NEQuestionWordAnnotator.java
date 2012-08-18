@@ -44,25 +44,30 @@ public class NEQuestionWordAnnotator extends JCasAnnotator_ImplBase {
 
 			qw.setBegin(entity.getBegin());
 			qw.setEnd(entity.getEnd());
-			if (entity.getValue().equals("DATE")) {
-				qw.setQuestionword("when");
-			}
-			if (entity.getValue().equals("PERSON")) {
-				qw.setQuestionword("who");
-			}
-			if (entity.getValue().equals("LOCATION")) {
-				qw.setQuestionword("where");
-			}
-			if (entity.getValue().equals("ORGANIZATION")) {
-				qw.setQuestionword("which organisation");
-			}
-			if (entity.getValue().equals("MONEY")) {
-				qw.setQuestionword("how much money");
-			}
+			qw.setQuestionword(getQuestionWord(entity));
 			// TODO figure out how to use Time and Percent annotations
 			qw.addToIndexes();
 		}
 
+	}
+
+	public static String getQuestionWord(NamedEntity entity) {
+		if (entity.getValue().equals("DATE")) {
+			return "when";
+		}
+		if (entity.getValue().equals("PERSON")) {
+			return "who";
+		}
+		if (entity.getValue().equals("LOCATION")) {
+			return "where";
+		}
+		if (entity.getValue().equals("ORGANIZATION")) {
+			return "which organisation";
+		}
+		if (entity.getValue().equals("MONEY")) {
+			return "how much money";
+		}
+		return null;
 	}
 
 }
