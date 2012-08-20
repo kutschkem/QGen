@@ -42,7 +42,6 @@ public class SmithHeilmannTagger extends JCasAnnotator_ImplBase {
 					question.setAnswer("Yes");
 				}
 				String text = AnalysisUtilities.orginialSentence(q.getTree().yield());
-				text = text.replaceAll("\\s(?=\\p{Punct})", "");
 				question.setText(text);
 				question.addToIndexes();
 			}

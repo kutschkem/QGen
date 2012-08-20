@@ -25,12 +25,7 @@ import org.uimafit.util.JCasUtil;
 
 import com.github.kutschkem.Qgen.annotations.Questionword;
 
-import de.tudarmstadt.ukp.dkpro.core.api.ner.type.Date;
-import de.tudarmstadt.ukp.dkpro.core.api.ner.type.Location;
-import de.tudarmstadt.ukp.dkpro.core.api.ner.type.Money;
 import de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity;
-import de.tudarmstadt.ukp.dkpro.core.api.ner.type.Organization;
-import de.tudarmstadt.ukp.dkpro.core.api.ner.type.Person;
 
 public class NEQuestionWordAnnotator extends JCasAnnotator_ImplBase {
 

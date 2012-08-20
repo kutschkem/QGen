@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Thu May 17 14:45:17 CEST 2012
- * XML source: D:/Infostud/PraktManagementUnstrukturierterInformationen/QGen/src/main/resources/desc/type/QGentypes.xml
+ * Updated by JCasGen Sat Aug 18 13:41:23 CEST 2012
+ * XML source: E:/workspace/QGen/src/main/resources/desc/type/QGentypes.xml
  * @generated */
 public class Questionword extends Annotation {
   /** @generated
