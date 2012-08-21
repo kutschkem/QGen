@@ -1,7 +1,6 @@
 package com.github.kutschkem.Qgen.SmithHeilmann;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import arkref.parsestuff.AnalysisUtilities;
@@ -30,11 +29,16 @@ public class QuestionAsker {
 		ranker.loadModel(ClassLoader.getSystemResource(rankerModel).getFile());
 	}
 	
-	public List<Question> ask(String sentence){
+	public List<Question> ask(List<String> sentences){
+		
+		List<Tree> parses = new ArrayList<Tree>();
+		for(String sentence: sentences){
 		Tree parse = AnalysisUtilities.getInstance().parseSentence(sentence).parse;
+		parses.add(parse);
+		}
 		
 		//step 1 transformation
-		List<Question> transformationOutput = trans.transform(Arrays.asList(parse));
+		List<Question> transformationOutput = trans.transform(parses);
 		
 		//step 2 question transducer
 		List<Question> outputQuestionList = new ArrayList<Question>();
