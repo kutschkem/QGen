@@ -35,6 +35,8 @@ import org.apache.uima.UIMAException;
 import com.github.kutschkem.Qgen.QuestionExtractor;
 import com.github.kutschkem.Qgen.ui.model.QuestionTableModel;
 
+import de.tudarmstadt.ukp.wikipedia.api.exception.WikiApiException;
+
 public class GUI {
 
 	private JFrame frame;
@@ -155,6 +157,9 @@ public class GUI {
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
+						} catch (WikiApiException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 					}
 

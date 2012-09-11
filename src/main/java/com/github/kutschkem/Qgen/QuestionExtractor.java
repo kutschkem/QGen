@@ -21,6 +21,7 @@ import static org.uimafit.factory.CollectionReaderFactory.createCollectionReader
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,6 +46,9 @@ import de.tudarmstadt.ukp.dkpro.core.io.jwpl.WikipediaStandardReaderBase;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 import de.tudarmstadt.ukp.wikipedia.api.DatabaseConfiguration;
+import de.tudarmstadt.ukp.wikipedia.api.Wikipedia;
+import de.tudarmstadt.ukp.wikipedia.api.exception.WikiApiException;
+import de.tudarmstadt.ukp.wikipedia.api.exception.WikiInitializationException;
 
 public class QuestionExtractor {
 
@@ -88,8 +92,19 @@ public class QuestionExtractor {
 	}
 
 	public List<Question> extractFromWikipedia(String title)
-			throws FileNotFoundException, IOException, UIMAException {
+			throws FileNotFoundException, IOException, UIMAException, WikiApiException {
 		DatabaseConfiguration dbconfig = WikipediaUtil.loadDbConfig();
+		
+		Wikipedia wiki = new Wikipedia(dbconfig);
+		List<Integer> ids = wiki.getPageIds(title);
+		List<String> idstrings = new ArrayList<String>();
+		for(Integer id : ids){
+			idstrings.add(id.toString());
+		}
+		
+		System.out.println("Requested Title: " + title);
+		System.out.println("Ids: " + idstrings);
+		
 		CollectionReader rdr = createCollectionReader(
 				WikipediaArticleReader.class, WikipediaReaderBase.PARAM_HOST,
 				dbconfig.getHost(), WikipediaReaderBase.PARAM_DB,
@@ -98,7 +113,7 @@ public class QuestionExtractor {
 				dbconfig.getPassword(), WikipediaReaderBase.PARAM_LANGUAGE,
 				dbconfig.getLanguage().toString(),
 				WikipediaStandardReaderBase.PARAM_PAGE_ID_LIST,
-				new String[] { title });
+				idstrings.toArray(new String[0]));
 		SimplePipeline.runPipeline(rdr,
 				getPipeline().toArray(new AnalysisEngine[0]));
 		return ranker.rank(QuestionListConsumer.questions.get("run"));
@@ -119,7 +134,7 @@ public class QuestionExtractor {
 
 		AnalysisEngine dumper = AnalysisEngineFactory.createPrimitive(QuestionListConsumer.class);
 
-		return Arrays.asList(tokenizer, ner, qwAssigner, questionAssembler, smithHeilmann, dumper);
+		return Arrays.asList(tokenizer, ner, /*qwAssigner, questionAssembler,*/ smithHeilmann, dumper);
 	}
 
 }

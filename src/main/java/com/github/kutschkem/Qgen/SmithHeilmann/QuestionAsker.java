@@ -43,10 +43,15 @@ public class QuestionAsker {
 		//step 2 question transducer
 		List<Question> outputQuestionList = new ArrayList<Question>();
 		
+		System.out.println();
+		int i = 0;
 		for(Question q: transformationOutput){
 			qtd.generateQuestionsFromParse(q);
 			outputQuestionList.addAll(qtd.getQuestions());
+			i++;
+			System.out.print("\rTransducer Progress: " + i + "/" + transformationOutput.size());
 		}
+		System.out.println();
 		
 		//remove duplicates
 		QuestionTransducer.removeDuplicateQuestions(outputQuestionList);
