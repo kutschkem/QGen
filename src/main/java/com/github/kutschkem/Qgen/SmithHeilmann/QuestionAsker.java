@@ -26,6 +26,7 @@ public class QuestionAsker {
 	public QuestionAsker(){
 		qtd.setAvoidPronounsAndDemonstratives(true);
 		trans.setDoPronounNPC(true);
+		trans.setDoNonPronounNPC(true);
 		ranker.loadModel(ClassLoader.getSystemResource(rankerModel).getFile());
 	}
 	

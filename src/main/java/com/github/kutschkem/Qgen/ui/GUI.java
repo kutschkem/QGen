@@ -16,6 +16,7 @@
 
 package com.github.kutschkem.Qgen.ui;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,6 +37,7 @@ import com.github.kutschkem.Qgen.QuestionExtractor;
 import com.github.kutschkem.Qgen.ui.model.QuestionTableModel;
 
 import de.tudarmstadt.ukp.wikipedia.api.exception.WikiApiException;
+import javax.swing.JScrollPane;
 
 public class GUI {
 
@@ -45,6 +47,7 @@ public class GUI {
 
 	private QuestionTableModel tableModel = new QuestionTableModel();
 	private JTextField textField;
+	private final JScrollPane scrollPane = new JScrollPane();
 
 	/**
 	 * Launch the application.
@@ -77,9 +80,13 @@ public class GUI {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		SpringLayout springLayout = new SpringLayout();
+		springLayout.putConstraint(SpringLayout.WEST, scrollPane, 0, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, 0, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, scrollPane, 0, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().setLayout(springLayout);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 0, SpringLayout.SOUTH, tabbedPane);
 		springLayout.putConstraint(SpringLayout.NORTH, tabbedPane, 0,
 				SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, tabbedPane, 0,
@@ -183,25 +190,26 @@ public class GUI {
 		sl_panel_1.putConstraint(SpringLayout.EAST, label, -20,
 				SpringLayout.WEST, textField);
 		panel_1.add(label);
-
-		table = new JTable();
-		springLayout.putConstraint(SpringLayout.NORTH, table, 0,
-				SpringLayout.SOUTH, tabbedPane);
-		springLayout.putConstraint(SpringLayout.WEST, table, 0,
-				SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, table, 0,
-				SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, table, 0,
-				SpringLayout.EAST, frame.getContentPane());
-		sl_panel.putConstraint(SpringLayout.NORTH, table, 0,
-				SpringLayout.SOUTH, panel);
-		sl_panel.putConstraint(SpringLayout.WEST, table, 0, SpringLayout.WEST,
-				panel);
-		sl_panel.putConstraint(SpringLayout.SOUTH, table, 0,
-				SpringLayout.SOUTH, frame.getContentPane());
-		sl_panel.putConstraint(SpringLayout.EAST, table, 0, SpringLayout.EAST,
-				panel);
-		frame.getContentPane().add(table);
-		table.setModel(tableModel);
+		
+				table = new JTable();
+				springLayout.putConstraint(SpringLayout.NORTH, table, 0,
+						SpringLayout.NORTH, scrollPane);
+				springLayout.putConstraint(SpringLayout.WEST, table, 0,
+						SpringLayout.WEST, scrollPane);
+				springLayout.putConstraint(SpringLayout.SOUTH, table, 0,
+						SpringLayout.SOUTH, scrollPane);
+				springLayout.putConstraint(SpringLayout.EAST, table, 0,
+						SpringLayout.EAST, scrollPane);
+				sl_panel.putConstraint(SpringLayout.NORTH, table, 0,
+						SpringLayout.SOUTH, panel);
+				sl_panel.putConstraint(SpringLayout.WEST, table, 0, SpringLayout.WEST,
+						panel);
+				sl_panel.putConstraint(SpringLayout.SOUTH, table, 0,
+						SpringLayout.SOUTH, frame.getContentPane());
+				sl_panel.putConstraint(SpringLayout.EAST, table, 0, SpringLayout.EAST,
+						panel);
+				scrollPane.setViewportView(table);
+				table.setModel(tableModel);
+		frame.getContentPane().add(scrollPane);
 	}
 }

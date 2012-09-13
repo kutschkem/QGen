@@ -16,7 +16,8 @@
 
 package com.github.kutschkem.Qgen.ui.model;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -24,24 +25,16 @@ import com.github.kutschkem.Qgen.Question;
 
 public class QuestionTableModel extends AbstractTableModel {
 
-	private String[][] table = new String[][] {};
+	private List<Question> table = new ArrayList<Question>();
 
-	public void fill(Collection<Question> questions) {
+	public void fill(List<Question> questions) {
 
-		table = new String[questions.size()][3];
-
-		int i = 0;
-		for (Question q : questions) {
-			table[i][0] = q.original_text;
-			table[i][1] = q.Question;
-			table[i][2] = q.answer;
-			i++;
-		}
+		table = new ArrayList<Question>(questions);
 		fireTableDataChanged();
 	}
 
 	public int getRowCount() {
-		return table.length;
+		return table.size();
 	}
 
 	public int getColumnCount() {
@@ -49,7 +42,13 @@ public class QuestionTableModel extends AbstractTableModel {
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return table[rowIndex][columnIndex];
+		Question q = table.get(rowIndex);
+		switch(columnIndex){
+		case 0 : return q.original_text;
+		case 1 : return q.Question;
+		case 2 : return q.answer;
+		default: throw new IndexOutOfBoundsException("invalid column index " + columnIndex);
+		}
 	}
 
 	@Override
@@ -64,6 +63,10 @@ public class QuestionTableModel extends AbstractTableModel {
 		default:
 			return super.getColumnName(column);
 		}
+	}
+	
+	public List<Question> getQuestions(){
+		return table;
 	}
 
 }

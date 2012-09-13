@@ -16,10 +16,18 @@
 
 package com.github.kutschkem.Qgen;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Question {
 
 	public String original_text;
 	public String Question;
 	public String answer;
+	private List<String> distractors = new ArrayList<String>();
+	
+	public List<String> getDistractors(){
+		return distractors;
+	}
 
 }
