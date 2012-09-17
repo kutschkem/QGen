@@ -1,25 +1,41 @@
+// Copyright (c) 2012 Michael Kutschke. All Rights Reserved.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 package com.github.kutschkem.Qgen.ui;
 
-import java.awt.EventQueue;
-import java.awt.FileDialog;
-
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JTextPane;
-import javax.swing.JEditorPane;
-import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JButton;
-import javax.swing.JMenuBar;
+import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextPane;
 import javax.swing.filechooser.FileFilter;
 
 import org.apache.uima.UIMAException;
@@ -28,11 +44,11 @@ import org.apache.uima.util.FileUtils;
 import com.github.kutschkem.Qgen.QuestionExtractor;
 import com.github.kutschkem.Qgen.ui.model.QuestionTableModelWithCheckButtons;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.IOException;
-
+/**
+ * UI for generating Question and Answer sheets out of a given text.
+ * @author Michael Kutschke
+ *
+ */
 public class GenerationApp {
 
 	private JFrame frame;
@@ -201,6 +217,7 @@ public class GenerationApp {
 		JButton btnPreview = new JButton("Preview");
 		btnPreview.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// open dialog that shows the HTML page that would be generated
 				JScrollPane pane = new JScrollPane();
 				JEditorPane previewComponent = new JEditorPane();
 				previewComponent.setContentType("text/html");

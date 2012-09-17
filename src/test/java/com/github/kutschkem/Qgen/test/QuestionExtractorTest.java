@@ -11,6 +11,7 @@ public class QuestionExtractorTest {
 
 	@Test
 	public void testSingularForm() throws UIMAException, IOException{
+		// tests a bug that occurred in the sentence "You went to school."
 		String text = "You went to school.";
 		QuestionExtractor ex = new QuestionExtractor();
 		ex.extract(text);

@@ -16,7 +16,6 @@
 
 package com.github.kutschkem.Qgen.ui;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +24,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -37,8 +37,19 @@ import com.github.kutschkem.Qgen.QuestionExtractor;
 import com.github.kutschkem.Qgen.ui.model.QuestionTableModel;
 
 import de.tudarmstadt.ukp.wikipedia.api.exception.WikiApiException;
-import javax.swing.JScrollPane;
 
+/**
+ * a simple GUI to test Question generation. The Wikipedia will only work if there is a proper
+ * configuration file at conf/connection.properties, with the following entries:
+ * <ul>
+ * <li>wikipedia.host</li>
+ * <li>wikipedia.db</li>
+ * <li>wikipedia.user</li>
+ * <li>wikipedia.password</li>
+ * </ul>
+ * @author Michael Kutschke
+ *
+ */
 public class GUI {
 
 	private JFrame frame;
