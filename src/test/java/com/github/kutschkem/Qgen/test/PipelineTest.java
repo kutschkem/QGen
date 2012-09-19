@@ -25,7 +25,8 @@ public class PipelineTest {
 	public void test() throws UIMAException, IOException{
 		String sentence = "Napoleon Bonaparte died in 1821.";
 		QuestionExtractor ex = new QuestionExtractor();
-		for(Question q: ex.extract(sentence)){
+		List<Question> extracted = ex.extract(sentence);
+		for(Question q: extracted){
 			System.out.println(q.Question);
 		}
 		

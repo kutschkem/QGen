@@ -25,7 +25,7 @@ import com.github.kutschkem.Qgen.Question;
 
 public class QuestionTableModel extends AbstractTableModel {
 
-	private List<Question> table = new ArrayList<Question>();
+	protected List<Question> table = new ArrayList<Question>();
 
 	public void fill(List<Question> questions) {
 

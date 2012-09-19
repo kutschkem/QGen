@@ -15,6 +15,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 package com.github.kutschkem.Qgen.ui.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.kutschkem.Qgen.Question;
@@ -71,5 +72,14 @@ public class QuestionTableModelWithCheckButtons extends QuestionTableModel {
 	}
 
 
+	public List<Question> getSelectedQuestions(){
+		List<Question> questions = new ArrayList<Question>();
+		for(int i = 0; i < table.size(); i++){
+			if(selected[i]){
+				questions.add(table.get(i));
+			}
+		}
+		return questions;
+	}
 
 }

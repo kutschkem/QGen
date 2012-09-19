@@ -37,6 +37,8 @@ import org.uimafit.pipeline.SimplePipeline;
 import com.github.kutschkem.Qgen.annotators.NEQuestionWordAnnotator;
 import com.github.kutschkem.Qgen.annotators.OvergeneratorPermutation;
 import com.github.kutschkem.Qgen.annotators.QuestionAnnotator;
+import com.github.kutschkem.Qgen.annotators.SmithHeilmannDecompositionAnnotator;
+import com.github.kutschkem.Qgen.annotators.SmithHeilmannQuestionAnnotator;
 import com.github.kutschkem.Qgen.annotators.SmithHeilmannTagger;
 import com.github.kutschkem.Qgen.util.WikipediaUtil;
 
@@ -54,26 +56,24 @@ public class QuestionExtractor {
 
 	private AnalysisEngine tokenizer;
 	private AnalysisEngine ner;
-	private AnalysisEngine qwAssigner;
-	private AnalysisEngine questionAssembler;
-	private AnalysisEngine smithHeilmann;
+	private AnalysisEngine smithHeilmann1;
+	private AnalysisEngine smithHeilmann2;
 	private QuestionRankerByParseProbability ranker;
 	private JCas jcas;
 
 	public QuestionExtractor() {
 		try {
-			tokenizer = AnalysisEngineFactory.createPrimitive(StanfordSegmenter.class);
-			ner = AnalysisEngineFactory.createPrimitive(
+			smithHeilmann1 = AnalysisEngineFactory.createPrimitive(SmithHeilmannDecompositionAnnotator.class);
+			smithHeilmann2 = AnalysisEngineFactory.createAnalysisEngine(AnalysisEngineFactory.createPrimitiveDescription(SmithHeilmannQuestionAnnotator.class), SmithHeilmannDecompositionAnnotator.VIEW_NAME);
+			ner = AnalysisEngineFactory.createAnalysisEngine(AnalysisEngineFactory.createPrimitiveDescription(
 					StanfordNamedEntityRecognizer.class,
 					StanfordNamedEntityRecognizer.PARAM_LANGUAGE,
 					"en",
 					StanfordNamedEntityRecognizer.PARAM_VARIANT,
-					"muc.7class.distsim.crf");
-			qwAssigner = AnalysisEngineFactory.createPrimitive(NEQuestionWordAnnotator.class);
-			questionAssembler = AnalysisEngineFactory.createPrimitive(QuestionAnnotator.class);
+					"muc.7class.distsim.crf"),SmithHeilmannDecompositionAnnotator.VIEW_NAME);
 			ranker = new QuestionRankerByParseProbability(
 					ClassLoader.getSystemResource("de/tudarmstadt/ukp/dkpro/core/stanfordnlp/lib/parser-en-pcfg.ser.gz"));
-			smithHeilmann = AnalysisEngineFactory.createPrimitive(SmithHeilmannTagger.class);
+			tokenizer = AnalysisEngineFactory.createAnalysisEngine(AnalysisEngineFactory.createPrimitiveDescription(StanfordSegmenter.class),SmithHeilmannDecompositionAnnotator.VIEW_NAME);
 			jcas = JCasFactory.createJCas();
 			jcas.setDocumentLanguage("en");
 		} catch (ResourceInitializationException e) {
@@ -132,9 +132,9 @@ public class QuestionExtractor {
 	private List<AnalysisEngine> getPipeline()
 			throws ResourceInitializationException {
 
-		AnalysisEngine dumper = AnalysisEngineFactory.createPrimitive(QuestionListConsumer.class);
+		AnalysisEngine dumper = AnalysisEngineFactory.createAnalysisEngine(AnalysisEngineFactory.createPrimitiveDescription(QuestionListConsumer.class),SmithHeilmannDecompositionAnnotator.VIEW_NAME);
 
-		return Arrays.asList(tokenizer, ner, /*qwAssigner, questionAssembler,*/ smithHeilmann, dumper);
+		return Arrays.asList( smithHeilmann1, tokenizer, ner, smithHeilmann2,   /*qwAssigner, questionAssembler,*/ dumper);
 	}
 
 }

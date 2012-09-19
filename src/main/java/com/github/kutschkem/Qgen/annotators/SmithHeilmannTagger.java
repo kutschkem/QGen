@@ -56,7 +56,7 @@ public class SmithHeilmannTagger extends JCasAnnotator_ImplBase {
 			Tree answerPhraseTree = q.getAnswerPhraseTree();
 			if (answerPhraseTree != null) {
 				question.setAnswer(AnalysisUtilities.orginialSentence(answerPhraseTree.yield()));
-				relabelWH(JCasUtil.selectCovered(NamedEntity.class, s),
+				NERelabeler.relabelWH(JCasUtil.selectCovered(NamedEntity.class, s),
 						question.getAnswer(), q.getTree());
 			} else {
 				question.setAnswer("Yes");
@@ -69,37 +69,5 @@ public class SmithHeilmannTagger extends JCasAnnotator_ImplBase {
 
 	}
 
-	/**
-	 * Smith-Heilmann's system doesn't seem to always decide on the right
-	 * Question word, this is enhance here by a rule-based system based on the
-	 * Named Entity Recognizer
-	 * 
-	 * @param listNE
-	 * @param answer
-	 * @param tree
-	 */
-	private void relabelWH(List<NamedEntity> listNE, String answer, Tree tree) {
-		// Step 1: identify NamedEntity corresponding to answer
-		String newWH = null;
-		for (NamedEntity ent : listNE) {
-			if (ent.getCoveredText().equals(answer)) {
-				newWH = NEQuestionWordAnnotator.getQuestionWord(ent);
-				break;
-			}
-		}
-		if (newWH == null)
-			return;
-		// Step 2: identify WH-node and replace the question word
-		String tregex = String.format(
-				"ROOT << (/^WH.*$/ << /^[Ww]h.*$/=qw ! << %1$s)", newWH);
-		TregexPattern p = TregexPattern.compile(tregex);
-
-		TsurgeonPattern sp = Tsurgeon.parseOperation(String.format(
-				"relabel qw %1$s", newWH));
-
-		Tsurgeon.processPattern(p, sp, tree);
-
-		AnalysisUtilities.upcaseFirstToken(tree);
-	}
 
 }
